@@ -1,18 +1,40 @@
 package com.MechSys.mechsys_user_management.controller;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.MechSys.mechsys_user_management.dto.UserDTO;
+import com.MechSys.mechsys_user_management.repo.UserRepo;
+import com.MechSys.mechsys_user_management.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value ="api/v1/")
 public class UserController {
-    @GetMapping("/getUser")
-    public String getUser(){
-        return "All users";
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/getusers")
+    public List<UserDTO> getUsers(){
+        return userService.getAllUsers();
+    }
+
+    @PostMapping("/adduser")
+    public UserDTO saveUser(@RequestBody UserDTO userDTO){
+        return userService.saveUser(userDTO);
+    }
+
+    @PutMapping("/updateuser")
+    public UserDTO updateUser(@RequestBody UserDTO userDTO){
+        return userService.updateUser(userDTO);
+    }
+
+    @DeleteMapping("/deleteuser")
+    public String deleteUser(@RequestBody UserDTO userDTO){
+        return userService.deleteUser(userDTO);
     }
 
 }
